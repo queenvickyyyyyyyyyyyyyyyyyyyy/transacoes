@@ -1,0 +1,44 @@
+CREATE TABLE clientes(
+cliente_id int PRIMARY KEY,
+nome VARCHAR(100),
+cpf VARCHAR(20),
+data_nascimento date,
+endereco VARCHAR(200)
+);
+
+INSERT INTO clientes(cliente_id, nome, cpf, data_nascimento, endereco)
+VALUES(01, 'Maria', '796.123.693.45', '20/06/1995', 'Rua: Gomes Fernando, N°52'),
+(02, 'Antônio', '769.325.871-63', '12/08/1986', 'Rua: Nilce Barbosa, N°845'),
+(03, 'Ronaldo', '569.321.486-02', '02/05/2000', 'Rua: Carlos Moura, N°451'),
+(04, 'Laís', '203.659.741-92', '29/02/2004', 'Rua: Amaral Monteiro, N°302');
+
+
+CREATE TABLE contas(
+conta_id int PRIMARY KEY,
+cliente_id int,
+saldo DECIMAL(10, 2),
+FOREIGN KEY(cliente_id)REFERENCES clientes (cliente_id)
+);
+
+INSERT INTO contas(conta_id, cliente_id, saldo)
+VALUES(01, 01, 5000),
+(02, 02, 10000),
+(03, 03, 1500),
+(04, 04, 96000);
+
+CREATE TABLE transacoes(
+transacao_id int PRIMARY KEY,
+conta_origem_id int,
+conta_destino_id int,
+valor DECIMAL(10, 2),
+data_hora TIMESTAMP,
+FOREIGN KEY (conta_origem_id) REFERENCES contas (conta_id),
+FOREIGN KEY (conta_destino_id) REFERENCES contas (conta_id)
+
+INSERT INTO transacoes(transacao_id, conta_origem_id, conta_destino_id, valor, data_hora)
+VALUES(01, 02, 03, 100, '06/11/2025 15:30:25'),
+(02, 04, 01, 5000, '05/11/2025 11:30:31');
+
+BEGIN;
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+);
